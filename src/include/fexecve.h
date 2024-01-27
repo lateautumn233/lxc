@@ -10,6 +10,6 @@
 #include "../lxc/compiler.h"
 #include <stdio.h>
 
-__hidden extern int fexecve(int fd, char *const argv[], char *const envp[]);
+__hidden extern int lxc_fexecve(int fd, char *const argv[], char *const envp[]);
 
 #endif /* _LXC_FEXECVE_H */

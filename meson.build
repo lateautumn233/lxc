@@ -124,7 +124,7 @@ conf.set('RUNTIME_PATH', runtimepath)
 conf.set('SYSCONFDIR', sysconfdir)
 
 # Cross-compile on Android.
-srcconf.set10('IS_BIONIC', host_machine.system() == 'android')
+srcconf.set10('IS_BIONIC', cc.has_define('__ANDROID__'))
 
 # Custom configuration.
 cgrouppattern = get_option('cgroup-pattern')
@@ -362,6 +362,7 @@ if want_seccomp
 
         seccomp_headers = '''
         #include <seccomp.h>
+        #include <linux/sched.h>
         '''
 
         foreach decl: [
@@ -536,7 +537,6 @@ foreach tuple: [
     ['fspick'],
     ['getgrgid_r'],
     ['getline'],
-    ['getsubopt'],
     ['gettid'],
     ['hasmntopt'],
     ['kcmp'],
@@ -699,6 +699,12 @@ else
     missing_types += 'FS_CONFIG_SET_CMD_RECONFIGURE (sys/mount.h)'
 endif
 
+have = cc.has_function('fexecve', prefix: '#include <unistd.h>')
+srcconf.set10('HAVE_FEXECVE', have)
+
+have = cc.has_function('getsubopt', prefix: '#include <stdlib.h>')
+srcconf.set10('HAVE_GETSUBOPT', have)
+
 ## Headers.
 foreach ident: [
     ['bpf',               '''#include <sys/syscall.h>
@@ -709,7 +715,6 @@ foreach ident: [
                              #include <mntent.h>'''],
     ['faccessat',         '''#include <fcntl.h>
                              #include <unistd.h>'''],
-    ['fexecve',           '''#include <unistd.h>'''],
     ['fgetln',            '''#include <stdio.h>'''],
     ['fsconfig',          '''#include <sys/mount.h>'''],
     ['fsmount',           '''#include <sys/mount.h>'''],
@@ -718,7 +723,6 @@ foreach ident: [
     ['getgrgid_r',        '''#include <sys/types.h>
                              #include <grp.h>'''],
     ['getline',           '''#include <stdio.h>'''],
-    ['getsubopt',         '''#include <stdlib.h>'''],
     ['gettid',            '''#include <sys/types.h>
                              #include <unistd.h>'''],
     ['hasmntopt',         '''#include <stdio.h>
