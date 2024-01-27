@@ -31,7 +31,7 @@
 #include "macro.h"
 #include "process_utils.h"
 
-int fexecve(int fd, char *const argv[], char *const envp[])
+int lxc_fexecve(int fd, char *const argv[], char *const envp[])
 {
 	char procfd[LXC_PROC_PID_FD_LEN];
 	int ret;

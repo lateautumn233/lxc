@@ -164,7 +164,7 @@
 #define u64_to_ptr(x) ((void *)(uintptr_t)x)
 #endif
 
-#if !HAVE_STRUCT_CLONE_ARGS
+#if !IS_BIONIC && !HAVE_STRUCT_CLONE_ARGS
 struct clone_args {
 	__aligned_u64 flags;
 	__aligned_u64 pidfd;

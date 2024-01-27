@@ -31,12 +31,5 @@ if want_tools_multicall
         dependencies: liblxc_dep,
         install: true)
 
-    if want_tools == false
-        foreach cmd : tools_commands
-            public_programs += install_symlink(
-                'lxc-' + cmd,
-                pointing_to: 'lxc',
-                install_dir: get_option('bindir'))
-        endforeach
-    endif
+
 endif

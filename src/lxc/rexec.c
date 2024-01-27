@@ -159,8 +159,11 @@ static void lxc_rexec_as_memfd(char **argv, char **envp, const char *memfd_name)
 	}
 	if (execfd < 0)
 		return;
-
+#if IS_BIONIC && !HAVE_FEXECVE
+	lxc_fexecve(execfd, argv, envp);
+#else
 	fexecve(execfd, argv, envp);
+#endif
 }
 
 /*
