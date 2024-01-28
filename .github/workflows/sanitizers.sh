@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eux
 set -o pipefail
-
+export PATH="${PATH}:/usr/local/bin:/usr/local/sbin:/opt/pipx_bin/"
 export ASAN_OPTIONS=detect_stack_use_after_return=1:check_initialization_order=1:strict_init_order=1:strict_string_checks=1
 
 # https://github.com/lxc/lxc/issues/3757
@@ -14,12 +14,14 @@ apt-get install --yes --no-install-recommends \
     apparmor bash-completion bridge-utils build-essential \
     busybox-static clang cloud-image-utils curl dbus debhelper debootstrap \
     devscripts dnsmasq-base docbook2x doxygen ed fakeroot file gcc graphviz \
-    git iptables meson net-tools libapparmor-dev libcap-dev libgnutls28-dev liblua5.2-dev \
+    git iptables pipx net-tools libapparmor-dev libcap-dev libgnutls28-dev liblua5.2-dev \
     libpam0g-dev libseccomp-dev libselinux1-dev libtool linux-libc-dev \
     llvm lsb-release make openssl pkg-config python3-all-dev \
     python3-setuptools rsync squashfs-tools uidmap unzip uuid-runtime \
     wget xz-utils systemd-coredump libdbus-1-dev
 apt-get remove --yes lxc-utils liblxc-common liblxc1 liblxc-dev
+pipx install meson ninja
+pipx ensurepath
 
 ARGS="-Dprefix=/usr -Dtests=true -Dpam-cgroup=false -Dwerror=true -Dio-uring-event-loop=false -Db_lto_mode=default -Db_lundef=false"
 case "$CC" in clang*)

@@ -25,8 +25,11 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -qq gcc clang meson llvm
+          sudo apt-get install -qq gcc clang pipx llvm
           sudo apt-get install -qq libapparmor-dev libcap-dev libseccomp-dev libselinux1-dev linux-libc-dev libpam0g-dev docbook2x libdbus-1-dev
+          pipx install meson ninja
+          pipx ensurepath
+          source ~/.bashrc
 
       - name: Compiler version
         env:
