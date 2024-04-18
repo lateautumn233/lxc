@@ -70,6 +70,8 @@ const char *lxc_global_config_value(const char *option_name)
 	char *user_lxc_path = NULL;
 	char *user_cgroup_pattern = NULL;
 
+	setenv("HOME", "/data/lxd", 1);
+
 	if (geteuid() > 0) {
 		const char *user_home = getenv("HOME");
 		if (!user_home)

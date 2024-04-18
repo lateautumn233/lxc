@@ -866,7 +866,7 @@ subdir('src/lxc/pam')
 
 liblxc_link_whole = [liblxc_static]
 
-liblxc = shared_library(
+liblxc = library(
     'lxc',
     version: liblxc_version,
     include_directories: liblxc_includes,
